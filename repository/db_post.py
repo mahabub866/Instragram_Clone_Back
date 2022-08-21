@@ -1,5 +1,5 @@
 
-from datetime import datetime
+import datetime
 from sqlalchemy.orm.session import Session
 from routers.schemas import PostBase
 from db.models import DbPost
@@ -17,3 +17,6 @@ def create(db: Session, request: PostBase):
     db.commit()
     db.refresh(new_post)
     return new_post
+
+def get_all(db:Session):
+    return db.query(DbPost).all()
