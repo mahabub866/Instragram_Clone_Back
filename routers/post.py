@@ -6,7 +6,7 @@ import string
 from sqlalchemy.orm.session import Session
 from auth.oauth2 import get_current_user
 from db.database import get_db
-from repository.db_post import create, get_all
+from repository.db_post import create, delete_post, get_all
 import shutil
 import random
 from routers.schemas import PostBase, PostDisplay, UserBase, UserDisplay,UserAuth
@@ -42,3 +42,10 @@ def upload_image(image:UploadFile=File(...),current_user:UserAuth=Depends(get_cu
     with open(path, 'w+b') as buffer:
         shutil.copyfileobj(image.file, buffer)
     return {'filename': path}
+
+@router.get('/delete/{id}')
+def delete(id:int,db:Session=Depends(get_db),current_user:UserAuth=Depends(get_current_user)):
+    print(current_user)
+    owner_id=current_user.id
+
+    return delete_post(db,id,owner_id)

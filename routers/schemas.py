@@ -28,6 +28,13 @@ class User(BaseModel):
         orm_mode = True
 
 
+class Comment(BaseModel):
+    text:str
+    username:str
+    timestamp:datetime
+    class Config():
+        orm_mode = True
+
 class PostDisplay(BaseModel):
     id:int
     image_url:str
@@ -35,12 +42,36 @@ class PostDisplay(BaseModel):
     caption:str
     timestamp:datetime
     user:User
+    comments:List[Comment]
 
     class Config():
         orm_mode = True
 
+class Login(BaseModel):
+    username: str
+    password:str
+    
+
+    class Config():
+        orm_mode=True
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: str | None = None
+
 class UserAuth(BaseModel):
-    id:int
+    id: int
     username:str
     email:str
+    
+class CommentBase(BaseModel):
+    username:str
+    text:str
+    post_id:int
 
+
+  
